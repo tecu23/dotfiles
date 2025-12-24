@@ -9,6 +9,8 @@ dotfiles/
 ├── README.md
 ├── .gitmodules      # Git submodule configuration
 ├── install.sh       # Installation script
+├── ghostty/
+│   └── config       # Ghostty terminal configuration
 ├── nvim/            # Neovim config (git submodule)
 │   └── init.lua
 ├── tmux/            # Tmux config (git submodule)

@@ -1,0 +1,6 @@
+background-opacity = 1
+background-opacity-cells=false
+
+font-size = 15
+
+keybind = shift+enter=text:\x1b\r

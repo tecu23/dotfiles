@@ -58,6 +58,12 @@ echo "Installing tmux configuration..."
 backup_if_exists "$HOME/.config/tmux"
 link_file "$DOTFILES_DIR/tmux" "$HOME/.config/tmux"
 
+# Install ghostty configuration
+echo ""
+echo "Installing ghostty configuration..."
+backup_if_exists "$HOME/.config/ghostty"
+link_file "$DOTFILES_DIR/ghostty" "$HOME/.config/ghostty"
+
 echo ""
 echo -e "${GREEN}Installation complete!${NC}"
 echo ""

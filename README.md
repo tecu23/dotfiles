@@ -48,6 +48,7 @@ git submodule update --init --recursive
 ```
 
 The script will:
+
 - Backup any existing configuration files (with timestamp)
 - Create symlinks from your home directory to the dotfiles repo
 - Preserve your existing configs as `.backup.YYYYMMDD_HHMMSS`
@@ -63,11 +64,13 @@ source ~/.zshrc
 ### Git Configuration
 
 **`.gitconfig`** - Git user settings:
+
 - User name and email (uses GitHub private email)
 - HTTPS to SSH URL rewrite for GitHub repositories
 - Prevents exposing your personal email in commits
 
 **`ignore`** (global gitignore):
+
 - macOS files (`.DS_Store`)
 - Linux/Windows system files
 - Editor temporary files (`.swp`, `.swo`, etc.)
@@ -82,18 +85,21 @@ All git commits will use your GitHub private email (`74561515+tecu23@users.norep
 The zsh setup includes two files:
 
 **`.zprofile`** - Environment setup (loaded first):
+
 - NVM (Node Version Manager) initialization
 - Homebrew environment setup
 - Additional PATH configurations
 - Go private repository settings
 
 **`.zshrc`** - Shell configuration (loaded after .zprofile):
+
 - Oh My Zsh configuration
 - Shell plugins
 - Aliases and functions
 - Theme settings
 
 **Custom Oh My Zsh Theme (pi.zsh-theme)**:
+
 - Minimal, clean prompt design
 - Shows π symbol (green for success, red for failure)
 - Smart path display (shortens when inside git repos)
@@ -115,11 +121,13 @@ echo 'export GOPRIVATE=github.com/your-org' >> ~/dotfiles/zsh/private.zsh
 ```
 
 This file is automatically:
+
 - ✅ Sourced by `.zprofile` if it exists
 - ✅ Ignored by git (listed in `.gitignore`)
 - ✅ Never committed to the repository
 
 **Example `private.zsh` contents:**
+
 ```bash
 # Private/local configuration
 export GOPRIVATE=github.com/algolia
@@ -196,6 +204,7 @@ git submodule update --remote --merge  # Pulls latest from main branch for all s
 ```
 
 This will:
+
 1. Pull latest dotfiles changes
 2. Update all submodules (nvim, tmux) to latest commit on `main`
 3. Update the commit references in dotfiles repo

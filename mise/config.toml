@@ -36,8 +36,14 @@ always_keep_download = true
 [tasks]
 
 [tools]
+jq = "latest"
 node = "lts"
-ruby = "3.3"
+ruby = "3.4.4"
+go = "latest"
+terraform = "latest"
+gcloud = "latest"
+python = "3.13"
+java = "21"
 # You can define custom tasks here
 # Example:
 # [tasks.test]

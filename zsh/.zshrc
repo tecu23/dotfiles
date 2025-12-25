@@ -106,9 +106,10 @@ NVM_AUTOLOAD=1
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-eval "$(rbenv init - zshrc)"
-
 export TERM=xterm-256color
 
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# Initialize mise for version management (node, ruby, python, go, etc.)
+eval "$(mise activate zsh)"

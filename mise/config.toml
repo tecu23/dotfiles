@@ -1,0 +1,40 @@
+# mise configuration file
+# This file sets global tool versions and mise settings
+# Project-specific versions should be set in project's .mise.toml or .tool-versions
+
+# Global tool versions
+# Uncomment and set your preferred versions after installing them with:
+#   mise install node@20
+#   mise install ruby@3.3
+#   mise use --global node@20 ruby@3.3
+#
+# [tools]
+# node = "20"           # Latest 20.x - for JavaScript/TypeScript/React
+# ruby = "3.3"          # Latest 3.3.x
+# go = "1.21"           # Latest 1.21.x
+# python = "3.12"       # Latest 3.12.x
+
+# mise settings
+[settings]
+# Automatically install missing tool versions when entering directories
+auto_install = false
+
+# Use legacy version files (.nvmrc, .ruby-version, .node-version, etc.)
+# This allows mise to read existing version files from nvm/rbenv/etc.
+legacy_version_file = true
+
+# Enable experimental features
+experimental = false
+
+# Verbose output for debugging
+verbose = false
+
+# Always keep plugins updated
+always_keep_download = true
+
+# Tasks
+[tasks]
+# You can define custom tasks here
+# Example:
+# [tasks.test]
+# run = "npm test"

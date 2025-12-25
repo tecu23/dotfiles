@@ -14,6 +14,7 @@ brew "gh"
 brew "git"
 brew "gnupg"
 brew "jq"
+brew "yq"
 brew "k9s"
 brew "kubernetes-cli"
 brew "kubectx"
@@ -34,8 +35,37 @@ brew "shared-mime-info"
 brew "tmux"
 brew "wget"
 brew "zlib"
+
+# Development utilities
+brew "bat"
+brew "direnv"
+brew "entr"
+brew "fzf"
+brew "tree"
+brew "watch"
+
+# Cloud tools
+brew "google-cloud-sdk"
+brew "grpcurl"
+
+# Kubernetes tools
+brew "helm"
+brew "kind"
+brew "skaffold"
+brew "stern"
+
+# Container tools
+brew "ctop"
+brew "dive"
+
+# HashiCorp tools
 brew "golangci/tap/golangci-lint"
+brew "hashicorp/tap/terraform"
 brew "hashicorp/tap/vault"
+brew "terraform-docs"
+brew "tflint"
+brew "tfsec"
+
 brew "puma/puma/puma-dev"
 
 cask "docker-desktop"

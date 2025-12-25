@@ -13,6 +13,41 @@ DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Installing dotfiles from ${DOTFILES_DIR}"
 
+# Check if Homebrew is installed
+if ! command -v brew &> /dev/null; then
+    echo ""
+    echo "Homebrew not found. Installing Homebrew..."
+    echo -e "${YELLOW}Note: Homebrew will be configured via your dotfiles (.zprofile)${NC}"
+
+    # Install Homebrew in non-interactive mode to prevent it from modifying shell files
+    # Our dotfiles already have the proper Homebrew configuration
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # Add Homebrew to PATH for this installation session
+    if [[ $(uname -m) == 'arm64' ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+
+    echo -e "${GREEN}Homebrew installed successfully${NC}"
+else
+    echo ""
+    echo -e "${GREEN}Homebrew is already installed${NC}"
+fi
+
+# Install packages from Brewfile
+if [ -f "$DOTFILES_DIR/Brewfile" ]; then
+    echo ""
+    echo "Installing packages from Brewfile..."
+    cd "$DOTFILES_DIR"
+    brew bundle install
+    echo -e "${GREEN}Brewfile packages installed${NC}"
+else
+    echo ""
+    echo -e "${YELLOW}Brewfile not found, skipping package installation${NC}"
+fi
+
 # Function to backup existing file if it exists and is not a symlink
 backup_if_exists() {
     if [ -e "$1" ] && [ ! -L "$1" ]; then

@@ -9,19 +9,26 @@ dotfiles/
 ├── README.md
 ├── .gitignore       # Gitignore for dotfiles repo
 ├── .gitmodules      # Git submodule configuration
+├── Brewfile         # Homebrew packages (GCP, K8s, Terraform, etc.)
 ├── install.sh       # Installation script
 ├── ghostty/
 │   └── config       # Ghostty terminal configuration
 ├── git/
 │   ├── .gitconfig   # Git user configuration
 │   └── ignore       # Global gitignore
+├── mise/
+│   └── config.toml  # mise version manager configuration
 ├── nvim/            # Neovim config (git submodule)
 │   └── init.lua
+├── scripts/
+│   └── test-install.sh  # Test installation script
 ├── tmux/            # Tmux config (git submodule)
 │   └── tmux.conf
 └── zsh/
     ├── .zprofile    # Zsh profile (loaded before .zshrc)
     ├── .zshrc       # Zsh configuration
+    ├── aliases.zsh  # Shell aliases (git, k8s, terraform, docker, gcp)
+    ├── functions.zsh # Shell functions
     └── themes/
         └── pi.zsh-theme  # Custom Oh My Zsh theme
 ```
@@ -86,7 +93,6 @@ The zsh setup includes two files:
 
 **`.zprofile`** - Environment setup (loaded first):
 
-- NVM (Node Version Manager) initialization
 - Homebrew environment setup
 - Additional PATH configurations
 - Go private repository settings
@@ -95,8 +101,26 @@ The zsh setup includes two files:
 
 - Oh My Zsh configuration
 - Shell plugins
-- Aliases and functions
+- mise initialization (version management)
+- Custom aliases and functions
 - Theme settings
+
+**`aliases.zsh`** - Productivity aliases for:
+
+- Git (g, gs, ga, gc, gp, etc.)
+- Kubernetes (k, kx, kns, kgp, etc.)
+- Terraform (tf, tfi, tfp, tfa, etc.)
+- Docker (d, dc, dps, etc.)
+- GCP (gcl, gcp, gcsp)
+- Modern CLI tools (bat, fd, rg)
+
+**`functions.zsh`** - Useful shell functions:
+
+- Kubernetes helpers (klog, kexec, kns)
+- Git helpers (gcbp, gcp)
+- GCP helpers (gcpswitch, gke-creds)
+- Terraform helpers (tfplan, tfapply)
+- Utilities (mkcd, extract, port)
 
 **Custom Oh My Zsh Theme (pi.zsh-theme)**:
 
@@ -231,3 +255,163 @@ To add a new submodule:
 1. `git submodule add <repo-url> <directory-name>`
 2. Update `install.sh` to symlink the directory
 3. Commit `.gitmodules` and the new submodule
+
+## Version Management with mise
+
+This repo uses [mise](https://mise.jdx.dev/) for unified version management of Node.js, Ruby, Go, Python, and other tools.
+
+### Why mise?
+
+- **One tool** instead of nvm, rbenv, pyenv, gvm, etc.
+- **Unified commands** - same syntax for all languages
+- **Reads legacy files** - `.nvmrc`, `.ruby-version`, etc. still work
+- **Faster shell startup** - written in Rust, minimal overhead
+- **500+ tools supported** - languages, CLIs, and more
+
+### Common mise Commands
+
+```bash
+# List all installed tools
+mise list
+
+# List available versions
+mise list-all node
+mise list-all ruby
+
+# Install specific versions
+mise install node@20.11.0
+mise install ruby@3.3.0
+
+# Set global versions (across all projects)
+mise use --global node@20
+mise use --global ruby@3.3
+
+# Set project-specific versions (creates .mise.toml)
+cd my-project
+mise use node@18 ruby@3.2
+
+# Check for outdated tools
+mise outdated
+
+# Upgrade tools
+mise upgrade
+```
+
+### Migration from nvm/rbenv
+
+The `mise` branch has already migrated from nvm/rbenv. If you're on an existing system:
+
+1. Your existing `.nvmrc` and `.ruby-version` files will still work (mise reads them)
+2. Install tools: `mise install node@lts ruby@3.3`
+3. Set global defaults: `mise use --global node@lts ruby@3.3`
+4. Optional: Remove old version managers once comfortable
+
+## Brewfile - Package Management
+
+The `Brewfile` defines all Homebrew packages, casks, and extensions for your development environment:
+
+### Categories
+
+- **Development utilities**: bat, direnv, fzf, tree, watch
+- **Cloud tools**: google-cloud-sdk, grpcurl
+- **Kubernetes**: helm, kind, k9s, kubectx, skaffold, stern
+- **Container tools**: docker-desktop, ctop, dive
+- **Terraform**: terraform, tflint, tfsec, terraform-docs
+- **Version management**: mise
+- **And more...**
+
+### Usage
+
+```bash
+# Install all packages
+brew bundle install
+
+# Check what's installed
+brew bundle list
+
+# Cleanup packages not in Brewfile
+brew bundle cleanup
+
+# Add new package
+echo 'brew "package-name"' >> Brewfile
+brew bundle install
+```
+
+## Testing Installation
+
+### Test Without a Fresh Mac
+
+You can test the installation script safely on your current Mac:
+
+#### Option 1: Dry-run Test Script
+
+```bash
+./scripts/test-install.sh
+```
+
+This shows what would happen without making changes.
+
+#### Option 2: Create a Test User
+
+```bash
+# Create a test user account
+sudo dscl . -create /Users/testuser
+sudo dscl . -create /Users/testuser UserShell /bin/zsh
+sudo dscl . -create /Users/testuser RealName "Test User"
+sudo dscl . -create /Users/testuser UniqueID 503
+sudo dscl . -create /Users/testuser PrimaryGroupID 20
+sudo dscl . -create /Users/testuser NFSHomeDirectory /Users/testuser
+sudo dscl . -passwd /Users/testuser password123
+
+# Create home directory
+sudo createhomedir -c -u testuser
+
+# Log out, log in as testuser, run install script
+# Log back in as main user and delete when done:
+sudo dscl . -delete /Users/testuser
+sudo rm -rf /Users/testuser
+```
+
+#### Option 3: Selective Testing
+
+Test individual components:
+
+```bash
+# Test Brewfile
+brew bundle install --file=Brewfile --no-lock
+
+# Test symlinks (see what would be linked)
+ls -la ~/.zshrc ~/.gitconfig ~/.config/nvim
+
+# Test mise installation
+mise doctor
+
+# Test aliases/functions
+source ~/dotfiles/zsh/aliases.zsh
+source ~/dotfiles/zsh/functions.zsh
+k get pods  # Should work if you have kubectl
+```
+
+#### Option 4: Use Docker (Limited)
+
+For testing shell configs only (no Homebrew/macOS-specific features):
+
+```bash
+docker run -it --rm -v ~/dotfiles:/dotfiles ubuntu:latest bash
+apt update && apt install -y zsh git
+# Test zsh configs only
+```
+
+### Full System Test
+
+The safest way to test everything is with a virtual machine or spare Mac, but the options above cover most scenarios.
+
+## Utility Scripts
+
+### test-install.sh
+
+Test what the install script would do without actually doing it:
+
+```bash
+./scripts/test-install.sh
+```

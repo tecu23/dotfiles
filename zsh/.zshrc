@@ -113,3 +113,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Initialize mise for version management (node, ruby, python, go, etc.)
 eval "$(mise activate zsh)"
+
+# Load custom aliases and functions
+[ -f ~/dotfiles/zsh/aliases.zsh ] && source ~/dotfiles/zsh/aliases.zsh
+[ -f ~/dotfiles/zsh/functions.zsh ] && source ~/dotfiles/zsh/functions.zsh

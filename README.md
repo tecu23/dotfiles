@@ -11,6 +11,9 @@ dotfiles/
 ├── .gitmodules      # Git submodule configuration
 ├── Brewfile         # Homebrew packages (GCP, K8s, Terraform, etc.)
 ├── install.sh       # Installation script
+├── cheatsheets/
+│   ├── GO_CHEATSHEET.md   # Go development reference
+│   └── TMUX_CHEATSHEET.md # Tmux keybindings reference
 ├── ghostty/
 │   └── config       # Ghostty terminal configuration
 ├── git/
@@ -158,6 +161,24 @@ export GOPRIVATE=github.com/algolia
 export SOME_API_KEY=your_key_here
 # Add any other machine-specific settings
 ```
+
+## Cheat Sheets
+
+Quick reference guides for keybindings and commands:
+
+- **[Go Development](cheatsheets/GO_CHEATSHEET.md)** - Complete Go development guide for Neovim
+  - go.nvim commands (struct tags, code generation, testing)
+  - LSP navigation and actions
+  - Diagnostics and formatting
+  - Testing and coverage workflows
+
+- **[Tmux](cheatsheets/TMUX_CHEATSHEET.md)** - Comprehensive tmux reference
+  - Session, window, and pane management
+  - Custom keybindings (Ctrl-a prefix, Alt-H/L window switching)
+  - Plugin features (vim-tmux-navigator, tmux-pain-control, logging)
+  - Common workflows and tips
+
+More cheat sheets coming soon (Vim, Zsh, Kubernetes, etc.)
 
 ## Usage
 

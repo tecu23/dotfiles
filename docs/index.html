@@ -7,14 +7,20 @@
   <meta name="description" content="Quick reference guides for development tools and workflows">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-  <!-- Theme: vue -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <!-- Theme -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" id="theme-light">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css" id="theme-dark" disabled>
 
   <style>
     :root {
       --base-font-size: 16px;
       --theme-color: #667eea;
       --theme-color-dark: #5568d3;
+    }
+
+    /* Smooth transitions */
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     /* Custom styling */
@@ -53,6 +59,56 @@
     .badge-soon {
       background-color: #f59e0b;
       color: white;
+    }
+
+    /* Dark mode toggle button */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--theme-color);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* Dark mode specific styles */
+    [data-theme="dark"] .sidebar {
+      background-color: #1c1c1e;
+      border-right: 1px solid #2c2c2e;
+    }
+
+    [data-theme="dark"] .theme-toggle {
+      background: #667eea;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .theme-toggle {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
@@ -114,5 +170,60 @@
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-lua.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+
+  <!-- Dark mode toggle -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+    <span id="theme-icon">🌙</span>
+  </button>
+
+  <script>
+    // Theme toggle functionality
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+      const lightTheme = document.getElementById('theme-light');
+      const darkTheme = document.getElementById('theme-dark');
+      const body = document.body;
+
+      // Check for saved theme preference or default to light mode
+      const currentTheme = localStorage.getItem('theme') || 'light';
+
+      // Apply theme on load
+      function applyTheme(theme) {
+        if (theme === 'dark') {
+          lightTheme.disabled = true;
+          darkTheme.disabled = false;
+          body.setAttribute('data-theme', 'dark');
+          themeIcon.textContent = '☀️';
+        } else {
+          lightTheme.disabled = false;
+          darkTheme.disabled = true;
+          body.setAttribute('data-theme', 'light');
+          themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', theme);
+      }
+
+      // Initialize theme
+      applyTheme(currentTheme);
+
+      // Toggle theme on button click
+      themeToggle.addEventListener('click', function() {
+        const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(newTheme);
+      });
+
+      // Listen for system theme changes
+      if (window.matchMedia) {
+        const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        darkModeQuery.addEventListener('change', function(e) {
+          // Only apply if user hasn't manually set a preference
+          if (!localStorage.getItem('theme')) {
+            applyTheme(e.matches ? 'dark' : 'light');
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

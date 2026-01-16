@@ -16,21 +16,19 @@
 
 # mise settings
 [settings]
-# Automatically install missing tool versions when entering directories
-auto_install = false
+auto_install = true
 
 # Use legacy version files (.nvmrc, .ruby-version, .node-version, etc.)
 # This allows mise to read existing version files from nvm/rbenv/etc.
 legacy_version_file = true
-
-# Enable experimental features
-experimental = false
+experimental = true
 
 # Verbose output for debugging
 verbose = false
 
 # Always keep plugins updated
 always_keep_download = true
+idiomatic_version_file_enable_tools = ["node"]
 
 # Tasks
 [tasks]

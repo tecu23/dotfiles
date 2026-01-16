@@ -118,3 +118,4 @@ eval "$(mise activate zsh)"
 # Load custom aliases and functions
 [ -f ~/dotfiles/zsh/aliases.zsh ] && source ~/dotfiles/zsh/aliases.zsh
 [ -f ~/dotfiles/zsh/functions.zsh ] && source ~/dotfiles/zsh/functions.zsh
+export NPM_TOKEN=dummy

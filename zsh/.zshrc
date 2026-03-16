@@ -100,7 +100,7 @@ NVM_AUTOLOAD=1
 # the $ZSH_CUSTOM folder, with .zsh extension. Examples:
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
+
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -114,12 +114,29 @@ export PATH="/usr/local/go/bin:$PATH"
 
 # Initialize mise for version management (node, ruby, python, go, etc.)
 eval "$(mise activate zsh)"
+eval "$(mise hook-env)"
 
 # Load custom aliases and functions
 [ -f ~/dotfiles/zsh/aliases.zsh ] && source ~/dotfiles/zsh/aliases.zsh
 [ -f ~/dotfiles/zsh/functions.zsh ] && source ~/dotfiles/zsh/functions.zsh
-export NPM_TOKEN=dummy
-eval "$(mise hook-env)"
-
 # Load local machine-specific config (not tracked in git)
 [ -f ~/dotfiles/zsh/.zshrc.local ] && source ~/dotfiles/zsh/.zshrc.local
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/andrei.teculescu/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/andrei.teculescu/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/andrei.teculescu/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/andrei.teculescu/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

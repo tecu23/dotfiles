@@ -36,8 +36,8 @@ idiomatic_version_file_enable_tools = ["node"]
 [tools]
 jq = "latest"
 node = "lts"
-ruby = "3.4.4"
-go = "latest"
+ruby = "3.3"
+go = "1.21"
 terraform = "latest"
 gcloud = "latest"
 python = "3.13"
